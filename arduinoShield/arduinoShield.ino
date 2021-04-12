@@ -64,7 +64,8 @@ void setup(){
       delay_count = false; 
       Serial.println("setup mode 5");
       break;
-    case '6': 
+    case '6':
+      pinMode(10, OUTPUT);
       delay_count = false;
       Serial.println("setup mode 6");
       break;
@@ -73,19 +74,22 @@ void setup(){
       delay_count = false;
       Serial.println("setup mode 7");
       break;
-    case '8': 
+    case '8':
+      //없음
       delay_count = false;
       Serial.println("setup mode 8");
       break;
-    case '9': 
+    case '9':
       delay_count = false;
       Serial.println("setup mode 9");
       break;
     case 'a': 
+      //없음
       delay_count = false;
       Serial.println("setup mode a");
       break;
     case 'b': 
+      //없음
       delay_count = false;
       Serial.println("setup mode b");
       break;
@@ -119,23 +123,23 @@ void loop(){
         Servo_moter();
         //Serial.println("setup mode 5");
         break;
-      case '6': 
-        Serial.println("setup mode 6");
+      case '6':
+        DCmoter();
         break;
       case '7':
         Var_resistance();
         break;
       case '8': 
-        Serial.println("setup mode 8");
+        cds_sensor();
         break;
       case '9': 
         Serial.println("setup mode 9");
         break;
       case 'a': 
-        Serial.println("setup mode a");
+        Pressure_sensor();
         break;
       case 'b': 
-        Serial.println("setup mode b");
+        Temp_sensor();
         break;
       case 'x':
         Serial.println("--------------------");
@@ -268,4 +272,43 @@ void Var_resistance(){
   Serial.println(analogPin_1);
   Serial.print("\n");
   delay(100);
+}
+
+void cds_sensor(){
+  int value = 0;
+  
+  value = analogRead(A2);
+  Serial.print("조도센서 ADC값: ");
+  Serial.println(value);  
+  delay(100);
+}
+
+void Temp_sensor(){
+  int value = 0;
+  float temp;
+  
+  value = analogRead(A5);
+  temp = (5.0 * value * 100.0) / 1024.0;
+    
+  Serial.print("현재온도: ");
+  Serial.println(temp);  
+  delay(100);  
+    
+  delay(100); 
+}
+
+void Pressure_sensor(){
+  int value = 0;
+  
+  value = analogRead(A4);
+  Serial.print("압력센서 ADC값: ");
+  Serial.println(value);  
+  delay(100);
+}
+
+void DCmoter(){
+  for(int i =10; i < 255; i = i + 10) {  
+   analogWrite(10, i);           
+   delay(100); 
+  }
 }
